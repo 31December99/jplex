@@ -48,7 +48,7 @@ class Bot {
         this.bot = new Telegraf(this._token);
         console.log(`Welcome to firstBot ${this._token}`);
 
-        // Bind del metodo per mantenere il contesto corretto
+        // Bind del metodo: https://it.javascript.info/bind#soluzione-2-bind
         this.handleInlineQuery = this.handleInlineQuery.bind(this);
 
         // Registra il gestore per l'evento inline_query
