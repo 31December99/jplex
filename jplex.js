@@ -35,7 +35,7 @@ class Bot {
     constructor() {
         /**
          * Bot rappresenta una classe che si occupa di gestire i comandi inline dell'utente
-         * @param {const} bot - Telegraf bot
+         * @param {telegraf} bot - Telegraf bot
          */
 
         // Trasferisco i parametri dal file env a process
@@ -48,18 +48,41 @@ class Bot {
         this.bot = new Telegraf(this._token);
         console.log(`Welcome to firstBot ${this._token}`);
 
+        // Callback per ottenere informazioni sull'utente
+        // https://telegraf.js.org/index.html#md:telegraf-class
+        // Dovrebbe ricevere dall'update/botinfo
+        // Non è un gestore eventi ma un flusso middleware, niente stringa
+        this.bot.use(this.userInfo.bind(this)); 
+
         // Bind del metodo: https://it.javascript.info/bind#soluzione-2-bind
         this.handleInlineQuery = this.handleInlineQuery.bind(this);
 
-        // Registra il gestore per l'evento inline_query
+        // Callbac per  gestore per l'evento `inline_query`
         this.bot.on(`inline_query`, this.handleInlineQuery);
+
+    }
+
+
+    // Middleware 
+    // Ctx = context istance
+    // next() rappresenta la funzione del middlware successivo
+    // questa funzione si inserisce tra l'updates ricevuto e il gestore di eventi 
+    async userInfo(ctx,next) {
+        console.log("MIDDLEWARE")
+        console.log(`[${new Date().toISOString()}] userid: ${ctx.from.id}`);
+        console.log(`[${new Date().toISOString()}] username: ${ctx.from.username}`);
+        console.log(`[${new Date().toISOString()}] first_name: ${ctx.from.first_name} ${ctx.from.last_name}`);
+        
+        // prossimo middleware
+        return next();
     }
 
 
     // Gestore eventi update di telegram
+    // ctx è una istanza context che intercetta tutti gli updates e response di telegram e li passa al gestore eventi o al middleware
     async handleInlineQuery(ctx) {
 
-        // Rappresenta il testo inserito dall'utente nell'inline query ( sulla stessa riga del nome del bot...)
+        // Rappresenta il testo inserito dall'utente nell'inline query
         const query = ctx.inlineQuery.query;
 
         // Istanzio una classe per le risposte alle query inline dell'utente
@@ -83,6 +106,6 @@ bot.run()
 https://telegraf.js.org/index.html#md:shorthand-methods
 
 // node.js intercetta ctr-c 
-process.once('SIGINT', () => bot.stop('SIGINT'))
-process.once('SIGTERM', () => bot.stop('SIGTERM'))
+process.once('SIGINT', () => bot.stop('SIGINT'))  // correggere
+process.once('SIGTERM', () => bot.stop('SIGTERM')) // correggere
 
