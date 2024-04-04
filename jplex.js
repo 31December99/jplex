@@ -20,7 +20,7 @@ class Commands {
             {
                 type: 'article',
                 id: '2',
-                title: '/Elenco users',
+                title: 'Elenco users',
                 input_message_content: {
                     message_text: '/users'
                 }
@@ -56,7 +56,6 @@ class Bot {
 
         // Bind del metodo: https://it.javascript.info/bind#soluzione-2-bind
         this.handleInlineQuery = this.handleInlineQuery.bind(this);
-
         // Callbac per  gestore per l'evento `inline_query`
         this.bot.on(`inline_query`, this.handleInlineQuery);
 
@@ -97,15 +96,16 @@ class Bot {
         this.bot.launch();
     }
 
+    exit() {
+
+        // node.js intercetta ctr-c 
+        process.once('SIGINT', () => this.bot.stop('SIGINT'))  
+        process.once('SIGTERM', () => this.bot.stop('SIGTERM'))
+    }
+
 }
 
 
 bot = new Bot()
 bot.run()
-// Enable graceful stop
-https://telegraf.js.org/index.html#md:shorthand-methods
-
-// node.js intercetta ctr-c 
-process.once('SIGINT', () => bot.stop('SIGINT'))  // correggere
-process.once('SIGTERM', () => bot.stop('SIGTERM')) // correggere
-
+bot.exit()
