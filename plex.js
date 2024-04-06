@@ -1,14 +1,12 @@
 
-const axios = require('axios');
-const dotenv = require('dotenv');
+import {} from 'axios';
 
-class Admin {
+export class Admin {
 
-    constructor() {
+    constructor(plex_token, server) {
 
-        dotenv.config();
-        this._plex_token = process.env.BOT_TOKEN;
-        this._server = process.env.SERVER;
+        this._plex_token = plex_token
+        this._server = server
         this.endpoint = '';
 
         const config = {
@@ -19,5 +17,3 @@ class Admin {
         };
     }
 }
-
-module.exports = { Admin };

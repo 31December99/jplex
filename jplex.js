@@ -1,57 +1,31 @@
 // -*- coding: utf-8 -*-
 
-const { Telegraf } = require('telegraf');
-const dotenv = require('dotenv');
-const { Admin } = require('./plex.js');
+import { Telegraf } from 'telegraf';
+import { Commands } from './utils.js';
 
+export class TelegramBot {
 
-class Commands {
-
-    constructor() {
-        // Inline menù dopo aver trascritto il nome del bot 
-        this.result = [
-            {
-                type: 'article',
-                id: '1',
-                title: 'Nuovo utente',
-                input_message_content: {
-                    message_text: '/register'
-                }
-            },
-            {
-                type: 'article',
-                id: '2',
-                title: 'Elenco users',
-                input_message_content: {
-                    message_text: '/users'
-                }
-            }
-        ];
-    }
-
-}
-
-class Bot {
-
-    constructor() {
+    constructor(bot_token, plex, db) {
         /**
          * Bot rappresenta una classe che si occupa di gestire i comandi inline dell'utente
          * @param {telegraf} bot - Telegraf bot
          */
 
-        // Trasferisco i parametri dal file env a process
-        dotenv.config();
+        // Telegram Bot token
+        this._bot_token = bot_token
+        
+        // Telegram Bot instance
+        this.bot = new Telegraf(this._bot_token);
 
-        // Bot token
-        this._token = process.env.BOT_TOKEN
+        // Plex instance
+        this.plex = plex;
+        
+        // Database instance
+        this.db = db;    
+        this.db.run();
 
-        // Istanzio nuovo bot
-        this.bot = new Telegraf(this._token);
-        console.log(`Welcome to firstBot ${this._token}`);
-
-        this.plex = new Admin();
-
-
+        // Welcome message
+        console.log(`Welcome...`);
 
         // Callback per ottenere informazioni sull'utente
         // https://telegraf.js.org/index.html#md:telegraf-class
@@ -112,7 +86,3 @@ class Bot {
 
 }
 
-
-bot = new Bot()
-bot.run()
-bot.exit()
