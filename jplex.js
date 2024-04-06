@@ -2,7 +2,7 @@
 
 const { Telegraf } = require('telegraf');
 const dotenv = require('dotenv');
-const plex  = require('plex.js')
+const plex  = require('./plex.js')
 
 
 class Commands {
