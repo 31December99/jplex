@@ -2,7 +2,7 @@
 
 const { Telegraf } = require('telegraf');
 const dotenv = require('dotenv');
-const plex  = require('./plex.js')
+const { Admin } = require('./plex.js');
 
 
 class Commands {
@@ -49,6 +49,10 @@ class Bot {
         this.bot = new Telegraf(this._token);
         console.log(`Welcome to firstBot ${this._token}`);
 
+        this.plex = new Admin();
+
+
+
         // Callback per ottenere informazioni sull'utente
         // https://telegraf.js.org/index.html#md:telegraf-class
         // Dovrebbe ricevere dall'update/botinfo
@@ -84,8 +88,6 @@ class Bot {
 
         // Rappresenta il testo inserito dall'utente nell'inline query
         const query = ctx.inlineQuery.query;
-
-        let plex = plex()
 
 
 
