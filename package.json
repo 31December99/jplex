@@ -4,5 +4,8 @@
   "description": "simple test",
   "main": "jplex.js",
   "repository": "https://github.com/31December99/jplex",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "node jplex.js"
+  }
 }
