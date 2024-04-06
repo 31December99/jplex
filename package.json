@@ -1,0 +1,8 @@
+{
+  "name": "jplex",
+  "version": "0.0.1",
+  "description": "simple test",
+  "main": "jplex.js",
+  "repository": "https://github.com/31December99/jplex",
+  "license": "MIT"
+}

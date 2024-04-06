@@ -2,6 +2,7 @@
 
 const { Telegraf } = require('telegraf');
 const dotenv = require('dotenv');
+const plex  = require('plex.js')
 
 
 class Commands {
@@ -83,6 +84,10 @@ class Bot {
 
         // Rappresenta il testo inserito dall'utente nell'inline query
         const query = ctx.inlineQuery.query;
+
+        let plex = plex()
+
+
 
         // Istanzio una classe per le risposte alle query inline dell'utente
         this.commands = new Commands()
