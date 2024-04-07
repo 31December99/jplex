@@ -24,9 +24,6 @@ export class TelegramBot {
         this.db = db;    
         this.db.run();
 
-        // Welcome message
-        console.log(`Welcome...`);
-
         // Callback per ottenere informazioni sull'utente
         // https://telegraf.js.org/index.html#md:telegraf-class
         // Dovrebbe ricevere dall'update/botinfo

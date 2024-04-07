@@ -22,17 +22,32 @@ class Main {
         this._pswAtlas =  process.env.PSW_MONGOATLAS;
         this._userAtlas = process.env.USER_MONGOATLAS;
 
-        // Plex istance
-        this._plex = new Admin(this._botToken, this._plexServer);
+        console.log('Start...');
+        this.start().then(() => {
+            console.log('OK.');
+        }).catch(error => {
+            console.error('Failed:', error);
+        });
+    }
 
-        // Database istance
-        this._db = new Database(this._userAtlas, this._pswAtlas)
-        
-        // Telegram bot istance
-        this.tBot = new TelegramBot(this._botToken, this._plex, this._db)
+    async start() {
+        try {
 
-        this.tBot.run();
-        this.tBot.exit();
+            // Plex istance
+            this._plex = new Admin(this._botToken, this._plexServer);
+
+            // Database istance
+            this._db = new Database(this._userAtlas, this._pswAtlas)
+            
+            // Telegram bot istance
+            this.tBot = new TelegramBot(this._botToken, this._plex, this._db)
+
+            this.tBot.run();
+
+        } catch (error) {
+            console.error(`Error -> ${error}` );
+            this.tBot.exit();
+        }
     }
 }
 
